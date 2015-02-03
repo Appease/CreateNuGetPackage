@@ -16,12 +16,12 @@ function Invoke-CIStep(
 [string]$OutputDirectoryPath){
     EnsureNuGetCommandLineInstalled
     
-    foreach($CsprojAndOrNuspecFilePaths in $CsprojAndOrNuspecFilePaths)
+    foreach($csprojOrNuspecFilePath in $CsprojAndOrNuspecFilePaths)
     {        
         # invoke nuget pack
-        nuget pack (resolve-path $CsprojAndOrNuspecFilePath) `
+        nuget pack (resolve-path $csprojOrNuspecFilePath) `
         -Symbols `
-        -OutputDirectory $OutputDirectoryPath
+        -OutputDirectory (resolve-path $OutputDirectoryPath)
 
         # handle errors
         if ($LastExitCode -ne 0) {
