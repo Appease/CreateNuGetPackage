@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>posh-ci-createnugetpackage</id>
+		<title>Posh-CI-CreateNuGetPackage</title>
+		<version>$version$</version>
+		<authors>Chris Dostert</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>
+			A Posh-CI step that creates a NuGet package
+			
+			Installation notes: 
+			-	installs to:  C:\ProgramFiles\Posh-CI\Modules\Posh-CI-CreateNuGetPackage
+		</description>
+		<tags>Powershell Posh-CI Create NuGet</tags>
+		<projectUrl>https://github.com/posh-ci/posh-ci-createnugetpackage</projectUrl>
+		<dependencies>
+			<dependency id="posh-ci" version="0.0.1" />
+		</dependencies>
+	</metadata>	
+	<files>
+		<file src="**" target="tools" />
+	</files>
+</package>
