@@ -7,7 +7,7 @@
 		<authors>Chris Dostert</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>
-			A Posh-CI step that creates a NuGet package
+			A Posh-CI step that creates one or more NuGet packages
 			
 			Installation notes: 
 			-	installs to:  C:\ProgramFiles\Posh-CI\Modules\Posh-CI-CreateNuGetPackage

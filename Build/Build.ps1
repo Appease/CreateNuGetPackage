@@ -66,7 +66,7 @@ function Compile(
         -ModuleVersion $Version `
         -Guid 'd1287fb4-ba88-4f4b-8a2e-0ad2c4e85398' `
         -Author 'Chris Dostert' `
-        -Description 'A Posh-CI step that creates a NuGet package' `
+        -Description 'A Posh-CI step that creates one or more NuGet packages' `
         -PowerShellVersion '3.0' `
         -RootModule 'Posh-CI-CreateNuGetPackage.psm1'
 }
