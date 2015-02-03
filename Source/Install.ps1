@@ -3,7 +3,7 @@ $installRootDirPath = "$env:ProgramFiles\Posh-CI\Modules\Posh-CI-CreateNuGetPack
 
 # handle upgrade scenario
 if(Test-Path "$installRootDirPath"){
-    Write-Debug 'removing previous Posh-CI-NuGetPackage installation'
+    Write-Debug 'removing previous Posh-CI-CreateNuGetPackage installation'
     . "$PSScriptRoot\Uninstall.ps1"
 }
 New-Item $installRootDirPath -ItemType Directory | Out-Null
