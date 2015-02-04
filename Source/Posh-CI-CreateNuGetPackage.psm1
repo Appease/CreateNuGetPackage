@@ -12,8 +12,9 @@ function EnsureNuGetCommandLineInstalled(){
 }
 
 function Invoke-CIStep(
-[string[]][Parameter(Mandatory=$true, ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths,
-[string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath){
+[string[]][Parameter(Mandatory=$true, ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths = @(),
+[string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath = '.',
+[string][Parameter(ValueFromPipelineByPropertyName = $true)]$Version= '0.0.1'){
     EnsureNuGetCommandLineInstalled
     
     foreach($csprojOrNuspecFilePath in $CsprojAndOrNuspecFilePaths)
@@ -21,7 +22,8 @@ function Invoke-CIStep(
         # invoke nuget pack
         nuget pack (resolve-path $csprojOrNuspecFilePath) `
         -Symbols `
-        -OutputDirectory (resolve-path $OutputDirectoryPath)
+        -OutputDirectory (resolve-path $OutputDirectoryPath) `
+        -Version $Version
 
         # handle errors
         if ($LastExitCode -ne 0) {
