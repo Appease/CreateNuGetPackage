@@ -14,7 +14,7 @@ add an entry in your ci plans `Packages.config` file
 then just pass variables to Invoke-CIPlan according to the following signature 
 ```POWERSHELL
 function Invoke-CIStep(
-[string][Parameter(Mandatory=$true)]$CsprojAndOrNuspecFilePaths,
+[string[]][Parameter(Mandatory=$true)]$CsprojAndOrNuspecFilePaths,
 [string]$OutputDirectoryPath){
   <# implementation snipped #>
 }
