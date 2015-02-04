@@ -12,8 +12,8 @@ function EnsureNuGetCommandLineInstalled(){
 }
 
 function Invoke-CIStep(
-[string][Parameter(Mandatory=$true)]$CsprojAndOrNuspecFilePaths,
-[string]$OutputDirectoryPath){
+[string[]][Parameter(Mandatory=$true, ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths,
+[string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath){
     EnsureNuGetCommandLineInstalled
     
     foreach($csprojOrNuspecFilePath in $CsprojAndOrNuspecFilePaths)
