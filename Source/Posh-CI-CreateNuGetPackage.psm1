@@ -1,10 +1,10 @@
 # halt immediately on any errors which occur in this module
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = 'Stop'
 
 function EnsureNuGetCommandLineInstalled(){
     # install nuget-commandline
     try{
-        Get-Command nuget -ErrorAction "Stop" | Out-Null
+        Get-Command nuget -ErrorAction 'Stop' | Out-Null
     }
     catch{             
         cinst 'nuget.commandline'
