@@ -12,7 +12,7 @@ function EnsureNuGetCommandLineInstalled(){
 }
 
 function Invoke-CIStep(
-[string[]][Parameter(Mandatory=$true, ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths,
+[string[]][Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]$CsprojAndOrNuspecFilePaths,
 [string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath='.',
 [string][Parameter(ValueFromPipelineByPropertyName = $true)]$Version='0.0.1'){
     EnsureNuGetCommandLineInstalled
