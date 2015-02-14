@@ -11,14 +11,22 @@ add an entry in your ci plans `Packages.config` file
 </packages>
 ```
 
-then just pass variables to Invoke-CIPlan according to the following signature 
-```POWERSHELL
-function Invoke-CIStep(
-[string[]][Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]$CsprojAndOrNuspecFilePaths=@(),
-[string][Parameter(ValueFromPipelineByPropertyName=$true)]$OutputDirectoryPath='.',
-[string][Parameter(ValueFromPipelineByPropertyName=$true)]$Version='0.0.1'){
-  <# implementation snipped #>
-}
+then just pass variables to Invoke-CIPlan according to the following parameters:
+
+#####CsprojAndOrNuspecFilePaths Parameter
+explicit paths to .nuspec and or .csproj files you want to pass to `nuget.exe pack`; defaults is all .nuspec files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
+```PowerShell
+[string[]][Parameter(ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths
+```
+#####OutputDirectoryPath Parameter
+the output directory to pass to `nuget.exe pack`
+```PowerShell
+[string][Parameter(ValueFromPipelineByPropertyName=$true)]$OutputDirectoryPath='.'
+```
+#####Version Parameter
+version to pass to `nuget.exe pack`
+```PowerShell
+[string][Parameter(ValueFromPipelineByPropertyName=$true)]$Version='0.0.1'
 ```
 
 **What's the build Status?**
