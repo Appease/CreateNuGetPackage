@@ -2,6 +2,7 @@
 $ErrorActionPreference = 'Stop'
 
 function Invoke-CIStep(
+[string][Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]$PoshCIProjectRootDirPath,
 [string[]][Parameter(ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths,
 [string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath='.',
 [string][Parameter(ValueFromPipelineByPropertyName = $true)]$Version='0.0.1'){
@@ -12,7 +13,7 @@ function Invoke-CIStep(
 
         $CsprojAndOrNuspecFilePaths = @()
     
-        foreach($nuspecFileInfo in (Get-ChildItem -Path . -File -Name '*.nuspec' -Recurse)){
+        foreach($nuspecFileInfo in (Get-ChildItem -Path $PoshCIProjectRootDirPath -File -Name '*.nuspec' -Recurse)){
     
             $csprojFilePath = $nuspecFileInfo -ireplace '.nuspec','.csproj'
 
