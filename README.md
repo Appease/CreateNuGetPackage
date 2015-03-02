@@ -1,11 +1,11 @@
 ####What is it?
 
-A [Posh-CI](https://github.com/Posh-CI/Posh-CI) step that creates one or more [NuGet](http://www.nuget.org/) packages
+A [PoshCI](https://github.com/PoshCI/PoshCI) step that creates one or more [NuGet](http://www.nuget.org/) packages
 
 ####How do I install it?
 
 ```PowerShell
-Add-CIStep -Name "YOUR-CISTEP-NAME" -ModulePackageId "Posh-CI-CreateNuGetPackage"
+Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "PoshCI.CreateNuGetPackage"
 ```
 
 ####What parameters are available?
