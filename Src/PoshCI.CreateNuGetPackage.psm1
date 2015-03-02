@@ -35,10 +35,10 @@ $Version='0.0.1'){
             $csprojFilePath = $nuspecFileInfo -ireplace '.nuspec','.csproj'
 
             if(Test-Path $csprojFilePath){
-                $csprojAndOrNuspecFilePaths = $csprojAndOrNuspecFilePaths + $csprojFilePath
+                $csprojAndOrNuspecFilePaths += $csprojFilePath
             }
             else{
-                $csprojAndOrNuspecFilePaths = $csprojAndOrNuspecFilePaths + $nuspecFileInfo
+                $csprojAndOrNuspecFilePaths += $nuspecFileInfo
             }
 
         }

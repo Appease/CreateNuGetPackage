@@ -12,6 +12,6 @@
 		<projectUrl>https://github.com/PoshCI/PoshCI.CreateNuGetPackage</projectUrl>
 	</metadata>	
 	<files>
-		<file src="**" target="tools" exclude="**\.nuspec"/>
+		<file src="**" target="tools\PoshCI.CreateNuGetPackage" exclude="**\.nuspec"/>
 	</files>
 </package>
