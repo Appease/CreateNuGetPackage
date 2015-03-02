@@ -2,24 +2,24 @@
 $ErrorActionPreference = 'Stop'
 
 function Invoke-CIStep(
-[string]
+[String]
 [ValidateNotNullOrEmpty()]
 [Parameter(
     Mandatory=$true,
     ValueFromPipelineByPropertyName=$true)]
 $PoshCIProjectRootDirPath,
 
-[string[]]
+[String[]]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
 $CsprojAndOrNuspecFilePaths,
 
-[string]
+[String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
 $OutputDirectoryPath='.',
 
-[string]
+[String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
 $Version='0.0.1'){
