@@ -5,7 +5,7 @@ A [PoshCI](https://github.com/PoshCI/PoshCI) step that creates one or more [NuGe
 ####How do I install it?
 
 ```PowerShell
-Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "PoshCI.CreateNuGetPackage"
+Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
 ```
 
 ####What parameters are available?
