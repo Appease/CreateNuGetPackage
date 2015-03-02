@@ -2,10 +2,27 @@
 $ErrorActionPreference = 'Stop'
 
 function Invoke-CIStep(
-[string][Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]$PoshCIProjectRootDirPath,
-[string[]][Parameter(ValueFromPipelineByPropertyName = $true)]$CsprojAndOrNuspecFilePaths,
-[string][Parameter(ValueFromPipelineByPropertyName = $true)]$OutputDirectoryPath='.',
-[string][Parameter(ValueFromPipelineByPropertyName = $true)]$Version='0.0.1'){
+[string]
+[ValidateNotNullOrEmpty()]
+[Parameter(
+    Mandatory=$true,
+    ValueFromPipelineByPropertyName=$true)]
+$PoshCIProjectRootDirPath,
+
+[string[]]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$CsprojAndOrNuspecFilePaths,
+
+[string]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$OutputDirectoryPath='.',
+
+[string]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$Version='0.0.1'){
     
     # default to recursively picking up any .nuspec files below the project root directory path.
     # if .csproj found with same name as any .nuspec that will be used instead
