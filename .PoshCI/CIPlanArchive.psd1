@@ -2,10 +2,17 @@
 	Steps = [Ordered]@{
 		CreateNuGetPackage = [PSCustomObject]@{
 			Name = [String]"CreateNuGetPackage"; 
-			PackageId = [String]"PoshCI.CreateNuGetPackage"; 
-			PackageVersion = [String]"0.0.3"; 
+			PackageId = [String]"CreateNuGetPackage"; 
+			PackageVersion = [String]"0.0.1"
+		}; 
+		PushNupkg = [PSCustomObject]@{
+			Name = [String]"PushNupkg"; 
+			PackageId = [String]"PushNupkg"; 
+			PackageVersion = [String]"0.0.6"; 
 			Parameters = [Hashtable]@{
-				Version = [String]"0.0.4"
+				IncludeNupkgFilePath = [String[]]@(
+					[String]".\*"
+				)
 			}
 		}
 	}
