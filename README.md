@@ -11,7 +11,7 @@ Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
 ####What parameters are available?
 
 #####CsprojAndOrNuspecFilePaths
-explicit paths to .nuspec and or .csproj files you want to pass to `nuget.exe pack`; defaults is all .nuspec files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
+A String[] representing explicit paths to .nuspec and or .csproj files you want to pass to `nuget.exe pack`; defaults is all .nuspec files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
 ```PowerShell
 [String[]]
 [Parameter(
@@ -19,7 +19,7 @@ explicit paths to .nuspec and or .csproj files you want to pass to `nuget.exe pa
 $CsprojAndOrNuspecFilePaths
 ```
 #####OutputDirectoryPath
-the output directory to pass to `nuget.exe pack`
+A String representing the output directory to pass to `nuget.exe pack`
 ```PowerShell
 [String]
 [Parameter(
