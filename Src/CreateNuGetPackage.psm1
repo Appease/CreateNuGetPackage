@@ -17,12 +17,17 @@ $CsprojAndOrNuspecFilePaths,
 [String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$OutputDirectoryPath='.',
+$OutputDirectoryPath,
 
 [String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$Version='0.0.1'){
+$Version='0.0.1',
+
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)
+$IncludeSymbols]){
     
     # default to recursively picking up any .nuspec files below the project root directory path.
     # if .csproj found with same name as any .nuspec that will be used instead
@@ -44,14 +49,27 @@ $Version='0.0.1'){
         }
 
     }
+    
+    $nugetExecutable = 'nuget'
 
     foreach($csprojOrNuspecFilePath in $CsprojAndOrNuspecFilePaths)
     {
-        # invoke nuget pack
-        nuget pack (resolve-path $csprojOrNuspecFilePath) `
-        -Symbols `
-        -OutputDirectory (resolve-path $OutputDirectoryPath) `
-        -Version $Version
+        
+        $nugetParameters = @('pack',(Resolve-Path $csprojOrNuspecFilePath),'-Version',$Version)
+        
+        if($OutputDirectoryPath){
+            $nugetParameters = $nugetParameters + @('-OutputDirectory',$OutputDirectoryPath)
+        }
+        if($IncludeSymbols.IsPresent){
+            $nugetParameters = $nugetParameters + @('-Symbols')
+        }
+    
+Write-Debug `
+@"
+Invoking nuget:
+& $nugetExecutable $($nugetParameters|Out-String)
+"@
+        & $nugetExecutable $nugetParameters
 
         # handle errors
         if ($LastExitCode -ne 0) {
