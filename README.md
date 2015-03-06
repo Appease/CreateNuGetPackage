@@ -24,15 +24,23 @@ A String representing the output directory to pass to `nuget.exe pack`
 [String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$OutputDirectoryPath='.'
+$OutputDirectoryPath
 ```
 #####Version
-version to pass to `nuget.exe pack`
+A String representing the version of the package
 ```PowerShell
 [String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
 $Version='0.0.1'
+```
+#####IncludeSymbols
+A Switch representing whether debug symbols should included in the package
+```PowerShell
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)
+$IncludeSymbols]
 ```
 
 ####What's the build status?
