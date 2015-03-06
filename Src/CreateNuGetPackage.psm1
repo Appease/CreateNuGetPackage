@@ -26,8 +26,8 @@ $Version='0.0.1',
 
 [Switch]
 [Parameter(
-    ValueFromPipelineByPropertyName = $true)
-$IncludeSymbols]){
+    ValueFromPipelineByPropertyName = $true)]
+$IncludeSymbols){
     
     # default to recursively picking up any .nuspec files below the project root directory path.
     # if .csproj found with same name as any .nuspec that will be used instead
