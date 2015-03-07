@@ -40,7 +40,7 @@ $Recurse
 ```
 
 #####PreferNuspec
-A Switch representing whether to prefer .nuspec over project files(.csproj,.vbproj..etc.); default is to prefer project files with the same base name as .nuspec files (when they exist).
+A Switch representing whether to prefer .nuspec files over project files(.csproj,.vbproj..etc.); default is to prefer project files with the same base name as .nuspec files (when they exist).
 ```PowerShell
 [Switch]
 [Parameter(
