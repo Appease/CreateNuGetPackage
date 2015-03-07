@@ -1,25 +1,64 @@
 # halt immediately on any errors which occur in this module
 $ErrorActionPreference = 'Stop'
 
-function Find-PrimaryNupkgSpec(
-[String]
-[ValidateNotNullOrEmpty()]
-[ValidateScript({$_ -match '\.(nuspec|csproj)$'})]
-$NuspecOrCsprojPath){
+function Get-NupkgSpecFileExtensionPreferences(
+[Switch]
+$PreferNuspec){
 
     <#
         .SUMMARY
-            If .csproj found @ same path as $NuspecOrCsprojPath it will be returned; otherwise original argument returned
+            Gets an array of file extensions in order of descending preference;default prefers *proj extensions but can be overriden via the $PreferNuspec switch
     #>
 
-    $CsprojTestPath = $NuspecOrCsprojPath -ireplace '.nuspec','.csproj'
-
-    if(Test-Path $CsprojTestPath){
-        Write-Output $CsprojTestPath
+    $nuspecFileExtension = @('.nuspec')
+    $projFileExtensions = @('.csproj','.vbproj','.fsproj')
+    
+    # build array of extensions in order of descending preference
+    if($PreferNuspec.IsPresent){
+        return $nupkgSpecFileExtensionPreference = $nuspecFileExtension += $projFileExtensions
     }
     else{
-        Write-Output $NuspecOrCsprojPath
+        return $nupkgSpecFileExtensionPreference = $projFileExtensions +=$nuspecFileExtension
+    }    
+}
+
+function Get-PreferredNupkgSpecPath(
+[String]
+[ValidateNotNullOrEmpty()]
+[Parameter(
+    Mandatory=$true)]
+$NupkgSpecFilePath,
+[String[]]
+[ValidateCount(1,[Int]::MaxValue)]
+$FileExtensionPreferences){
+
+    <#
+        .SUMMARY
+            Gets the full name of the preferred nupkg specification file based on $NupkgSpecFilePath and $FileExtensionPreferences
+    #>
+
+
+    $nupkgSpecFile = (gi $NupkgSpecFilePath)
+    $nupkgSpecFileFullBaseName = "$($nupkgSpecFile.DirectoryName)\$($nupkgSpecFile.BaseName)"
+    
+
+    foreach($fileExtensionPreference in $FileExtensionPreferences){
+        $nupkgSpecFileFullName = "$nupkgSpecFileFullBaseName$fileExtensionPreference"
+Write-Debug `
+@"
+checking for file at:
+$nupkgSpecFileFullName
+"@
+        if(Test-Path $nupkgSpecFileFullName){
+            return $nupkgSpecFileFullName
+        }
     }
+
+    throw `
+@"
+No file exist with base name: $nupkgSpecFileFullBaseName 
+and a file extension in: $($FileExtensionPreferences|Out-String)
+"@
 }
 
 function Invoke-CIStep(
@@ -46,6 +85,11 @@ $ExcludeCsprojAndOrNuspecNameLike,
     ValueFromPipelineByPropertyName=$true)]
 $Recurse,
 
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName=$true)]
+$PreferNuspec,
+
 [String]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
@@ -65,9 +109,17 @@ $IncludeSymbols){
     
     $nugetExecutable = 'nuget'
 
+    $nupkgSpecfileExtensionPreferences = Get-NupkgSpecFileExtensionPreferences -PreferNuspec:$PreferNuspec
+    Write-Debug `
+@"
+Nupkg spec file extension preferences are: 
+$($nupkgSpecfileExtensionPreferences|Out-String)
+"@
+
     foreach($csprojOrNuspecPath in $CsprojAndOrNuspecPaths)
     {        
-        $nugetParameters = @('pack', (Find-PrimaryNupkgSpec $csprojOrNuspecPath),'-Version',$Version)
+        $preferredNupkgSpecPath = Get-PreferredNupkgSpecPath $csprojOrNuspecPath -FileExtensionPreferences $nupkgSpecfileExtensionPreferences
+        $nugetParameters = @('pack', $preferredNupkgSpecPath,'-Version',$Version)
         
         if($OutputDirectoryPath){
             $nugetParameters += @('-OutputDirectory',$OutputDirectoryPath)
