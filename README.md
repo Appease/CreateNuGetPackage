@@ -10,14 +10,35 @@ Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
 
 ####What parameters are available?
 
-#####CsprojAndOrNuspecFilePaths
-A String[] representing explicit paths to .nuspec and or .csproj files you want to pass to `nuget.exe pack`; defaults is all .nuspec files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
+#####IncludeCsprojAndOrNuspecPath
+A String[] representing included .nuspec and/or .csproj file paths. Either literal or wildcard paths are allowed; defaults is all .nuspec 
+files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
+```PowerShell
+[String[]]
+[ValidateCount(1,[Int]::MaxValue)]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$IncludeCsprojAndOrNuspecPath = @(gci -Path $PoshCIProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName})
+```
+
+#####ExcludeCsprojAndOrNuspecPath
+A String[] representing .csproj and/or .nuspec file names to exclude. Either literal or wildcard names are supported.
 ```PowerShell
 [String[]]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$CsprojAndOrNuspecFilePaths
+$ExcludeCsprojAndOrNuspecPath
 ```
+
+#####Recurse
+A Switch representing whether to recursively search directories below $IncludeCsprojAndOrNuspecPath.
+```PowerShell
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$Recurse
+```
+
 #####OutputDirectoryPath
 A String representing the output directory to pass to `nuget.exe pack`
 ```PowerShell

@@ -1,6 +1,27 @@
 # halt immediately on any errors which occur in this module
 $ErrorActionPreference = 'Stop'
 
+function Find-PrimaryNupkgSpec(
+[String]
+[ValidateNotNullOrEmpty()]
+[ValidateScript({$_ -match '\.(nuspec|csproj)$'})]
+$NuspecOrCsprojPath){
+
+    <#
+        .SUMMARY
+            If .csproj found @ same path as $NuspecOrCsprojPath it will be returned; otherwise original argument returned
+    #>
+
+    $CsprojTestPath = $NuspecOrCsprojPath -ireplace '.nuspec','.csproj'
+
+    if(Test-Path $CsprojTestPath){
+        Write-Output $CsprojTestPath
+    }
+    else{
+        Write-Output $NuspecOrCsprojPath
+    }
+}
+
 function Invoke-CIStep(
 [String]
 [ValidateNotNullOrEmpty()]
@@ -10,9 +31,20 @@ function Invoke-CIStep(
 $PoshCIProjectRootDirPath,
 
 [String[]]
+[ValidateCount(1,[Int]::MaxValue)]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$CsprojAndOrNuspecFilePaths,
+$IncludeCsprojAndOrNuspecPath = @(gci -Path $PoshCIProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName}),
+
+[String[]]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$ExcludeCsprojAndOrNuspecNameLike,
+
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName=$true)]
+$Recurse,
 
 [String]
 [Parameter(
@@ -29,39 +61,19 @@ $Version='0.0.1',
     ValueFromPipelineByPropertyName = $true)]
 $IncludeSymbols){
     
-    # default to recursively picking up any .nuspec files below the project root directory path.
-    # if .csproj found with same name as any .nuspec that will be used instead
-    if(!$CsprojAndOrNuspecFilePaths){
-
-        $CsprojAndOrNuspecFilePaths = @()
-    
-        foreach($nuspecFileInfo in (Get-ChildItem -Path $PoshCIProjectRootDirPath -File -Name '*.nuspec' -Recurse)){
-    
-            $csprojFilePath = $nuspecFileInfo -ireplace '.nuspec','.csproj'
-
-            if(Test-Path $csprojFilePath){
-                $csprojAndOrNuspecFilePaths += $csprojFilePath
-            }
-            else{
-                $csprojAndOrNuspecFilePaths += $nuspecFileInfo
-            }
-
-        }
-
-    }
+    $CsprojAndOrNuspecPaths = @(gci -Path $IncludeCsprojAndOrNuspecPath -File -Exclude $ExcludeCsprojAndOrNuspecNameLike -Recurse:$Recurse | %{$_.FullName})
     
     $nugetExecutable = 'nuget'
 
-    foreach($csprojOrNuspecFilePath in $CsprojAndOrNuspecFilePaths)
-    {
-        
-        $nugetParameters = @('pack',(Resolve-Path $csprojOrNuspecFilePath),'-Version',$Version)
+    foreach($csprojOrNuspecPath in $CsprojAndOrNuspecPaths)
+    {        
+        $nugetParameters = @('pack', (Find-PrimaryNupkgSpec $csprojOrNuspecPath),'-Version',$Version)
         
         if($OutputDirectoryPath){
-            $nugetParameters = $nugetParameters + @('-OutputDirectory',$OutputDirectoryPath)
+            $nugetParameters += @('-OutputDirectory',$OutputDirectoryPath)
         }
         if($IncludeSymbols.IsPresent){
-            $nugetParameters = $nugetParameters + @('-Symbols')
+            $nugetParameters += @('-Symbols')
         }
     
 Write-Debug `
