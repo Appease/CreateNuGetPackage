@@ -39,6 +39,15 @@ A Switch representing whether to recursively search directories below $IncludeCs
 $Recurse
 ```
 
+#####PreferNuspec
+A Switch representing whether to prefer .nuspec over .csproj and/or .vbproj files; default is the opposite
+```PowerShell
+[Switch]
+[Parameter(
+    ValueFromPipelineByPropertyName = $true)]
+$PreferNuspec
+```
+
 #####OutputDirectoryPath
 A String representing the output directory to pass to `nuget.exe pack`
 ```PowerShell
