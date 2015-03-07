@@ -11,7 +11,7 @@ Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
 ####What parameters are available?
 
 #####IncludeCsprojAndOrNuspecPath
-A String[] representing included .nuspec and/or .csproj file paths. Either literal or wildcard paths are allowed; defaults is all .nuspec 
+A String[] representing included .nuspec and/or .csproj file paths. Either literal or wildcard paths are allowed; default is all .nuspec 
 files within your project root dir @ any depth unless .csproj files found by same name in which case .csproj will be used
 ```PowerShell
 [String[]]
