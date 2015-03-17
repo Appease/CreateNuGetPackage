@@ -6,10 +6,10 @@
 		<authors>Chris Dostert</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>
-			A PoshCI step that creates one or more NuGet packages
+			A PoshDevOps task that creates one or more NuGet packages
 		</description>
-		<tags>Powershell PoshCI NuGetPack</tags>
-		<projectUrl>https://github.com/PoshCI/CreateNuGetPackage</projectUrl>
+		<tags>Powershell PoshDevOps NuGetPack</tags>
+		<projectUrl>https://github.com/PoshDevOps/CreateNuGetPackage</projectUrl>
 	</metadata>	
 	<files>
 		<file src="**" target="tools\CreateNuGetPackage" exclude="**\.nuspec"/>

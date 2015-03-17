@@ -1,11 +1,11 @@
 ####What is it?
 
-A [PoshCI](https://github.com/PoshCI/PoshCI) step that creates one or more [NuGet](http://www.nuget.org/) packages
+A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) step that creates one or more [NuGet](http://www.nuget.org/) packages
 
 ####How do I install it?
 
 ```PowerShell
-Add-CIStep -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
+Add-PoshDevOpsTask -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
 ```
 
 ####What parameters are available?
@@ -18,7 +18,7 @@ files within your project root dir @ any depth unless .csproj files found by sam
 [ValidateCount(1,[Int]::MaxValue)]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$IncludeCsprojAndOrNuspecPath = @(gci -Path $PoshCIProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName})
+$IncludeCsprojAndOrNuspecPath = @(gci -Path $PoshDevOpsProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName})
 ```
 
 #####ExcludeCsprojAndOrNuspecPath
