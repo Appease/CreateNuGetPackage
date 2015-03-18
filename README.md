@@ -74,5 +74,5 @@ $IncludeSymbols]
 ```
 
 ####What's the build status?
-![](https://ci.appveyor.com/api/projects/status/78dvewyub2c3ih9c?svg=true)
+![](https://ci.appveyor.com/api/projects/status/rayv6xsibmqf48e8?svg=true)
 
