@@ -5,7 +5,7 @@ A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) task that creates one o
 ####How do I install it?
 
 ```PowerShell
-Add-PoshDevOpsTask -Name "YOUR-CISTEP-NAME" -PackageId "CreateNuGetPackage"
+Add-PoshDevOpsTask -Name "YOUR-TASK-NAME" -PackageId "CreateNuGetPackage"
 ```
 
 ####What parameters are available?
