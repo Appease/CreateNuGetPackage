@@ -1,6 +1,6 @@
 ####What is it?
 
-A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) step that creates one or more [NuGet](http://www.nuget.org/) packages
+A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) task that creates one or more [NuGet](http://www.nuget.org/) packages
 
 ####How do I install it?
 
