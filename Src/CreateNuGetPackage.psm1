@@ -56,8 +56,10 @@ $nupkgSpecFileFullName
 
     throw `
 @"
-No file exist with base name: $nupkgSpecFileFullBaseName 
-and a file extension in: $($FileExtensionPreferences|Out-String)
+No file exist with base name: 
+$nupkgSpecFileFullBaseName 
+and a file extension in: 
+$($FileExtensionPreferences|Out-String)
 "@
 }
 
