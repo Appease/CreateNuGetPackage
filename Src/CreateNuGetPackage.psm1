@@ -63,19 +63,19 @@ $($FileExtensionPreferences|Out-String)
 "@
 }
 
-function Invoke-PoshDevOpsTask(
+function Invoke(
 [String]
 [ValidateNotNullOrEmpty()]
 [Parameter(
     Mandatory=$true,
     ValueFromPipelineByPropertyName=$true)]
-$PoshDevOpsProjectRootDirPath,
+$AppeaseProjectRootDirPath,
 
 [String[]]
 [ValidateCount(1,[Int]::MaxValue)]
 [Parameter(
     ValueFromPipelineByPropertyName = $true)]
-$IncludeCsprojAndOrNuspecPath = @(gci -Path $PoshDevOpsProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName}),
+$IncludeCsprojAndOrNuspecPath = @(gci -Path $AppeaseProjectRootDirPath -File -Filter '*.nuspec' -Recurse | %{$_.FullName}),
 
 [String[]]
 [Parameter(
@@ -109,7 +109,7 @@ $IncludeSymbols){
     
     $CsprojAndOrNuspecPaths = @(gci -Path $IncludeCsprojAndOrNuspecPath -File -Exclude $ExcludeCsprojAndOrNuspecNameLike -Recurse:$Recurse | %{$_.FullName})
     
-    $nugetExecutable = 'nuget'
+    $NuGetCommand = 'nuget'
 
     $nupkgSpecfileExtensionPreferences = Get-NupkgSpecFileExtensionPreferences -PreferNuspec:$PreferNuspec
     Write-Debug `
@@ -121,21 +121,21 @@ $($nupkgSpecfileExtensionPreferences|Out-String)
     foreach($csprojOrNuspecPath in $CsprojAndOrNuspecPaths)
     {        
         $preferredNupkgSpecPath = Get-PreferredNupkgSpecPath $csprojOrNuspecPath -FileExtensionPreferences $nupkgSpecfileExtensionPreferences
-        $nugetParameters = @('pack', $preferredNupkgSpecPath,'-Version',$Version)
+        $NuGetParameters = @('pack', $preferredNupkgSpecPath,'-Version',$Version)
         
         if($OutputDirectoryPath){
-            $nugetParameters += @('-OutputDirectory',$OutputDirectoryPath)
+            $NuGetParameters += @('-OutputDirectory',$OutputDirectoryPath)
         }
         if($IncludeSymbols.IsPresent){
-            $nugetParameters += @('-Symbols')
+            $NuGetParameters += @('-Symbols')
         }
     
 Write-Debug `
 @"
 Invoking nuget:
-& $nugetExecutable $($nugetParameters|Out-String)
+& $NuGetCommand $($NuGetParameters|Out-String)
 "@
-        & $nugetExecutable $nugetParameters
+        & $NuGetCommand $NuGetParameters
 
         # handle errors
         if ($LastExitCode -ne 0) {
@@ -145,4 +145,4 @@ Invoking nuget:
 
 }
 
-Export-ModuleMember -Function Invoke-PoshDevOpsTask
+Export-ModuleMember -Function Invoke
